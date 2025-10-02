@@ -3,38 +3,58 @@ import {
   PersonalInfoSchema,
   type Country,
   type PersonalInfoType,
-} from '../schema';
+} from '@/features/register/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import Field from '../../../Field';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { selectData, selectStep, setStep, updateData } from '../slice';
 import DatePicker from '@/features/register/components/DatePicker';
 import type { TitleProps } from '@/features/register/components/AccountDetails';
 import { Input } from '@/components/ui/input';
 import { FormCard } from '@/features/register/components/FormCard';
+import Field from '@/Field';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import {
+  selectFirstStepData,
+  selectSecondStepData,
+  setStep,
+  updateSecondStepData,
+} from '@/features/register/slice';
+import { useEffect } from 'react';
 
 const countries: Country[] = ['Greece', 'Cyprus', 'Italy', 'Spain'];
 
 export default function PersonalInfo({ title }: TitleProps) {
-  const { username } = useAppSelector(selectData);
-  const step = useAppSelector(selectStep);
+  const { username } = useAppSelector(selectFirstStepData);
+  const data = useAppSelector(selectSecondStepData);
   const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
     control,
   } = useForm<PersonalInfoType>({
     resolver: zodResolver(PersonalInfoSchema(username)),
+    defaultValues: {
+      ...data,
+      dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : undefined,
+    },
   });
 
-  if (step !== 2) return null;
+  useEffect(() => {
+    const subscription = watch((data) => {
+      const dateOfBirth = data.dateOfBirth?.toISOString();
+      dispatch(updateSecondStepData({ ...data, dateOfBirth }));
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [watch, dispatch]);
 
   const onSubmit: SubmitHandler<PersonalInfoType> = (data) => {
     const dateOfBirth = data.dateOfBirth.toISOString();
-    dispatch(updateData({ ...data, dateOfBirth }));
+    dispatch(updateSecondStepData({ ...data, dateOfBirth }));
     dispatch(setStep(3));
   };
 
@@ -82,7 +102,7 @@ export default function PersonalInfo({ title }: TitleProps) {
           <div className="flex items-center justify-center gap-3 pt-2">
             <button
               type="submit"
-              className="rounded-xl px-4 py-2 shadow bg-black text-white"
+              className="rounded-xl px-4 py-2 shadow  bg-black text-white"
               onClick={() => {
                 dispatch(setStep(1));
               }}

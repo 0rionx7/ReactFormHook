@@ -8,23 +8,27 @@ export const StepMap = {
 };
 
 type RegisterDataType = {
-  username: string;
-  password: string;
-  confirmPassword: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  country: Country;
+  firstStep: {
+    username: string;
+    password: string;
+    confirmPassword: string;
+  };
+  secondStep: {
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    country: Country;
+  };
 };
 
 const initialValues: RegisterDataType = {
-  username: '',
-  password: '',
-  confirmPassword: '',
-  firstName: '',
-  lastName: '',
-  dateOfBirth: '',
-  country: 'Greece',
+  firstStep: { username: '', password: '', confirmPassword: '' },
+  secondStep: {
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    country: 'Greece',
+  },
 };
 
 export interface RegisterState {
@@ -41,19 +45,32 @@ export const registerSlice = createSlice({
   name: 'register',
   initialState,
   reducers: {
-    updateData: (state, action: PayloadAction<Partial<RegisterDataType>>) => {
-      state.data = { ...state.data, ...action.payload };
+    updateFirstStepData: (
+      state,
+      action: PayloadAction<Partial<RegisterDataType['firstStep']>>,
+    ) => {
+      state.data.firstStep = { ...state.data.firstStep, ...action.payload };
     },
+    updateSecondStepData: (
+      state,
+      action: PayloadAction<Partial<RegisterDataType['secondStep']>>,
+    ) => {
+      state.data.secondStep = { ...state.data.secondStep, ...action.payload };
+    },
+
     setStep: (state, action: PayloadAction<number>) => {
       state.step = action.payload;
     },
     reset: (): RegisterState => registerSlice.getInitialState(),
   },
   selectors: {
-    selectData: (formState) => formState.data,
+    selectFirstStepData: (formState) => formState.data.firstStep,
+    selectSecondStepData: (formState) => formState.data.secondStep,
     selectStep: (formState) => formState.step,
   },
 });
 
-export const { updateData, setStep, reset } = registerSlice.actions;
-export const { selectData, selectStep } = registerSlice.selectors;
+export const { updateFirstStepData, updateSecondStepData, setStep, reset } =
+  registerSlice.actions;
+export const { selectFirstStepData, selectSecondStepData, selectStep } =
+  registerSlice.selectors;

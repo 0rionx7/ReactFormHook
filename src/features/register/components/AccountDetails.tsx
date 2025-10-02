@@ -1,28 +1,42 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { AccountDetailsSchema, type AccountDetailsType } from '../schema';
-import { useAppDispatch } from '../../../app/hooks';
-import { setStep, updateData } from '../slice';
-import Field from '../../../Field';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FormCard } from '@/features/register/components/FormCard';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import {
+  selectFirstStepData,
+  setStep,
+  updateFirstStepData,
+} from '@/features/register/slice';
+import {
+  AccountDetailsSchema,
+  type AccountDetailsType,
+} from '@/features/register/schema';
+import Field from '@/Field';
 
 export type TitleProps = { title: string };
 
 export default function AccountDetails({ title }: TitleProps) {
+  const data = useAppSelector(selectFirstStepData);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<AccountDetailsType>({
     resolver: zodResolver(AccountDetailsSchema),
+    defaultValues: {
+      username: data.username,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+    },
   });
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<AccountDetailsType> = (data) => {
-    dispatch(updateData(data));
+    dispatch(updateFirstStepData(data));
     dispatch(setStep(2));
   };
 
