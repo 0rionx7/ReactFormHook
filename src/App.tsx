@@ -1,35 +1,17 @@
-import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router";
-
-import DonePage from "./DonePage";
-import Register, { type FormInput } from "./Register";
+import { useAppSelector } from '@/app/hooks';
+import AccountDetails from './features/register/components/AccountDetails';
+import PersonalInfo from './features/register/components/PersonalInfo';
+import { selectStep, StepMap } from '@/features/register/slice';
+import Registered from '@/features/register/components/Registered';
 
 function App() {
-  const [enteredValues, setEnteredValues] = useState<FormInput>({
-    name: "",
-    email: "",
-    agree: false,
-  });
+  const step = useAppSelector(selectStep);
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Register
-                enteredValues={enteredValues}
-                setEnteredValues={setEnteredValues}
-              />
-            }
-          />
-          <Route
-            path="/done"
-            element={<DonePage enteredValues={enteredValues} />}
-          />
-        </Routes>
-      </BrowserRouter>
+      {step === 1 && <AccountDetails title={StepMap[1]} />}
+      {step === 2 && <PersonalInfo title={StepMap[2]} />}
+      {step === 3 && <Registered title={StepMap[3]} />}
     </>
   );
 }
