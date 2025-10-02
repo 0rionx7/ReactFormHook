@@ -5,6 +5,9 @@ import { AccountDetailsSchema, type AccountDetailsType } from '../schema';
 import { useAppDispatch } from '../../../app/hooks';
 import { setStep, updateData } from '../slice';
 import Field from '../../../Field';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { FormCard } from '@/features/register/components/FormCard';
 
 export type TitleProps = { title: string };
 
@@ -25,12 +28,10 @@ export default function AccountDetails({ title }: TitleProps) {
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow p-6 space-y-6">
-        <h1 className="text-2xl font-semibold text-center">{title}</h1>
-
+      <FormCard title={title}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Field label="Username" error={errors.username?.message}>
-            <input
+            <Input
               {...register('username')}
               type="text"
               autoComplete="username"
@@ -38,7 +39,7 @@ export default function AccountDetails({ title }: TitleProps) {
             />
           </Field>
           <Field label="Password" error={errors.password?.message}>
-            <input
+            <Input
               {...register('password')}
               type="password"
               autoComplete="password"
@@ -49,23 +50,21 @@ export default function AccountDetails({ title }: TitleProps) {
             label="Confirm password"
             error={errors.confirmPassword?.message}
           >
-            <input
+            <Input
               {...register('confirmPassword')}
               type="password"
               autoComplete="confirmPassword"
               className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
             />
           </Field>
-          <div className="flex items-center justify-center gap-3 pt-2">
-            <button
-              type="submit"
-              className="rounded-xl px-4 py-2 shadow bg-black text-white"
-            >
-              Submit
-            </button>
-          </div>
+          <Button
+            type="submit"
+            className="rounded-xl px-4 py-2 shadow bg-black text-white"
+          >
+            Submit
+          </Button>
         </form>
-      </div>
+      </FormCard>
     </div>
   );
 }

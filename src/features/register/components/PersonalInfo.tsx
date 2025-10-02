@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectData, selectStep, setStep, updateData } from '../slice';
 import DatePicker from '@/features/register/components/DatePicker';
 import type { TitleProps } from '@/features/register/components/AccountDetails';
+import { Input } from '@/components/ui/input';
+import { FormCard } from '@/features/register/components/FormCard';
 
 const countries: Country[] = ['Greece', 'Cyprus', 'Italy', 'Spain'];
 
@@ -38,20 +40,17 @@ export default function PersonalInfo({ title }: TitleProps) {
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow p-6 space-y-6">
-        <h1 className="text-2xl font-semibold text-center">{title}</h1>
-
+      <FormCard title={title}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Field label="First Name" error={errors.firstName?.message}>
-            <input
+            <Input
               {...register('firstName')}
               type="text"
               className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
             />
           </Field>
-
           <Field label="Last Name" error={errors.lastName?.message}>
-            <input
+            <Input
               {...register('lastName')}
               type="text"
               className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
@@ -71,7 +70,6 @@ export default function PersonalInfo({ title }: TitleProps) {
               </div>
             )}
           />
-
           <Field label="Country" error={errors.country?.message}>
             <select {...register('country')}>
               {countries.map((country) => (
@@ -81,7 +79,6 @@ export default function PersonalInfo({ title }: TitleProps) {
               ))}
             </select>
           </Field>
-
           <div className="flex items-center justify-center gap-3 pt-2">
             <button
               type="submit"
@@ -100,7 +97,7 @@ export default function PersonalInfo({ title }: TitleProps) {
             </button>
           </div>
         </form>
-      </div>
+      </FormCard>
     </div>
   );
 }
