@@ -66,6 +66,7 @@ export default function PersonalInfo({ title }: TitleProps) {
             <Input
               {...register('firstName')}
               type="text"
+              data-cy="firstName"
               className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
             />
           </Field>
@@ -73,6 +74,7 @@ export default function PersonalInfo({ title }: TitleProps) {
             <Input
               {...register('lastName')}
               type="text"
+              data-cy="lastName"
               className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
             />
           </Field>
@@ -81,9 +83,16 @@ export default function PersonalInfo({ title }: TitleProps) {
             name="dateOfBirth"
             render={({ field }) => (
               <div className="flex flex-col gap-2">
-                <DatePicker date={field.value} setDate={field.onChange} />
+                <DatePicker
+                  date={field.value}
+                  setDate={field.onChange}
+                  data-cy="dateOfBirth"
+                />
                 {errors.dateOfBirth && (
-                  <p className="text-sm text-red-600">
+                  <p
+                    className="text-sm text-red-600"
+                    data-cy="dateOfBirth-error"
+                  >
                     {errors.dateOfBirth.message}
                   </p>
                 )}
@@ -91,7 +100,7 @@ export default function PersonalInfo({ title }: TitleProps) {
             )}
           />
           <Field label="Country" error={errors.country?.message}>
-            <select {...register('country')}>
+            <select {...register('country')} data-cy="country">
               {countries.map((country) => (
                 <option key={country} value={country}>
                   {country}
@@ -101,7 +110,6 @@ export default function PersonalInfo({ title }: TitleProps) {
           </Field>
           <div className="flex items-center justify-center gap-3 pt-2">
             <button
-              type="submit"
               className="rounded-xl px-4 py-2 shadow  bg-black text-white"
               onClick={() => {
                 dispatch(setStep(1));

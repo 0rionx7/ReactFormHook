@@ -8,7 +8,9 @@ export default function Registered({ title }: TitleProps) {
   return (
     <div className="flex items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow p-6 space-y-6">
-        <h1 className="text-2xl font-semibold">{title}</h1>
+        <h1 className="text-2xl font-semibold" data-cy="registered">
+          {title}
+        </h1>
 
         {username ? (
           <div className="rounded-xl border p-4 text-sm space-y-1">

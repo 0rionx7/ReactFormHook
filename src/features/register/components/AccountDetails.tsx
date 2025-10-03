@@ -49,6 +49,7 @@ export default function AccountDetails({ title }: TitleProps) {
               {...register('username')}
               type="text"
               autoComplete="username"
+              data-cy="username"
               className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
             />
           </Field>
@@ -57,6 +58,7 @@ export default function AccountDetails({ title }: TitleProps) {
               {...register('password')}
               type="password"
               autoComplete="password"
+              data-cy="password"
               className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
             />
           </Field>
@@ -68,11 +70,13 @@ export default function AccountDetails({ title }: TitleProps) {
               {...register('confirmPassword')}
               type="password"
               autoComplete="confirmPassword"
+              data-cy="confirmPassword"
               className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
             />
           </Field>
           <Button
             type="submit"
+            data-cy="submit"
             className="rounded-xl px-4 py-2 shadow bg-black text-white"
           >
             Submit

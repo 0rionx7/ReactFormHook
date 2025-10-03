@@ -15,7 +15,11 @@ type CalendarPropsType = {
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 };
 
-export default function DatePicker({ date, setDate }: CalendarPropsType) {
+export default function DatePicker({
+  date,
+  setDate,
+  ...props
+}: CalendarPropsType) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -28,6 +32,7 @@ export default function DatePicker({ date, setDate }: CalendarPropsType) {
           <Button
             variant="outline"
             id="date"
+            {...props}
             className="w-48 justify-between font-normal"
           >
             {date ? date.toLocaleDateString() : 'Select date'}

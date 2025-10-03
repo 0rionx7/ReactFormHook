@@ -13,7 +13,7 @@ export const AccountDetailsSchema = z
     if (password !== confirmPassword) {
       ctx.addIssue({
         code: 'custom',
-        message: 'passwords dont match',
+        message: `passwords don't match`,
         path: ['confirmPassword'],
       });
     }
@@ -40,7 +40,6 @@ export const PersonalInfoSchema = (username: string) =>
       const { dateOfBirth } = val;
       const today = new Date();
       const age = today.getFullYear() - dateOfBirth.getFullYear();
-      console.log(age);
       const hasBirthdayPassed =
         today.getMonth() > dateOfBirth.getMonth() ||
         (today.getMonth() === dateOfBirth.getMonth() &&
